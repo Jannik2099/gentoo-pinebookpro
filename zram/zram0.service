@@ -1,0 +1,9 @@
+[Unit]
+Description=Configure zram0 as swap
+
+[Service]
+Type=oneshot
+ExecStart=modprobe zram && zramctl zram0 -s 12G -t 6 -a lzo_rle
+
+[Install]
+WantedBy=multi-user.target

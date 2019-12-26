@@ -1,0 +1,18 @@
+#!/sbin/openrc-run
+
+description="Configure zram0 as swap"
+
+depend()
+{
+	provide zram0
+	use dev-mount
+	before dev
+}
+
+start()
+{
+	ebegin "Configure zram0 as swap"
+	modprobe zram && zramctl zram0 -s 12G -t 6 -a lzo_rle
+	eend $?
+}
+

@@ -1,0 +1,11 @@
+--- package.use.mask	2019-12-24 22:25:55.368659931 +0100
++++ package.use.mask.patched	2019-12-24 22:26:33.638307874 +0100
+@@ -552,7 +552,7 @@
+ 
+ # Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org> (2013-07-13)
+ # GL/GLES support in cairo is mutually exclusive, bug #428770.
+-x11-libs/cairo gles2
++x11-libs/cairo opengl
+ 
+ # Kacper Kowalik <xarthisius@gentoo.org> (2013-05-19)
+ # Fails to build, haven't had time to debug

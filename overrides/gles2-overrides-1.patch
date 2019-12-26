@@ -1,0 +1,34 @@
+--- package.use.mask	2018-09-13 17:39:27.000000000 +0200
++++ package.use.mask2	2019-12-10 15:05:59.034181036 +0100
+@@ -4,17 +4,17 @@
+ # USE=gles2 in the following packages disables full OpenGL
+ # Upstream does not test for that case and packages frequently
+ # fail to build or run if set.
+-dev-python/PyQt5 gles2
+-dev-qt/qt3d gles2
+-dev-qt/qtdatavis3d gles2
+-dev-qt/qtdeclarative gles2
+-dev-qt/qtgui gles2
+-dev-qt/qtmultimedia gles2
+-dev-qt/qtopengl gles2
+-dev-qt/qtprintsupport gles2
+-dev-qt/qtwebkit gles2
+-dev-qt/qtwidgets gles2
+-kde-apps/kdenlive gles2
+-kde-frameworks/plasma gles2
+-kde-plasma/kinfocenter gles2
+-kde-plasma/kwin gles2
++#dev-python/PyQt5 gles2
++#dev-qt/qt3d gles2
++#dev-qt/qtdatavis3d gles2
++#dev-qt/qtdeclarative gles2
++#dev-qt/qtgui gles2
++#dev-qt/qtmultimedia gles2
++#dev-qt/qtopengl gles2
++#dev-qt/qtprintsupport gles2
++#dev-qt/qtwebkit gles2
++#dev-qt/qtwidgets gles2
++#kde-apps/kdenlive gles2
++#kde-frameworks/plasma gles2
++#kde-plasma/kinfocenter gles2
++#kde-plasma/kwin gles2
