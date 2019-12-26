@@ -1,11 +1,22 @@
 #!/bin/sh
-FILES=`readlink -f $0 | xargs dirname`
-TEMPDIR=/var/tmp/gentoo-pinebookpro
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+	cat "`readlink -f $0 | xargs dirname`/helpfile"
+	exit 0
+fi
+
+if [ $EUID -ne 0 ]; then
+	echo "not run as root!"
+	exit 1
+fi
 
 if [ "`stat -c %d:%i /`" = "`stat -c %d:%i /proc/1/root/.`" ]; then
 	echo "not running in a chroot!!!"
 	exit 1
 fi
+
+FILES=`readlink -f $0 | xargs dirname`
+TEMPDIR=/var/tmp/gentoo-pinebookpro
 
 if [ `expr $# % 2` -eq 1 ]; then
 	echo "Invalid prompts, usage is ./prepare.sh --parameter1 value1 --parameter2 value2 ..."
@@ -69,7 +80,7 @@ if [ "$manjaro_kernel" != "no" ]; then
 	install -Dm755 $FILES/manjaro_kernel_scripts/envvars.sh /usr/src/manjaro_kernel_scripts
 	echo "installed manjaro kernel scripts"
 
-	if [ `test ! -f /usr/bin/git` && echo 1 ]; then
+	if [ `test ! -f /usr/bin/git && echo 1` ]; then
 		echo "syncing repo - this might take a while"
 		emerge-webrsync
 		echo "updating portage - this might take a while"
@@ -98,7 +109,7 @@ if [ "$manjaro_kernel" != "no" ]; then
 	echo "installed manjaro firmware"
 
 	install -Dm755 $FILES/manjaro_kernel_scripts/extlinux.conf /boot/extlinux
-	if [ "$ROOTUUID" != "" && "$ROOTUUID" != "no" ]; then
+	if [ "$ROOTUUID" != "" ] && [ "$ROOTUUID" != "no" ]; then
 		ROOTUUID=`findmnt --target / -o UUID | grep -v UUID`
 	fi
 	if [ "ROOTUUID" = "" ]; then

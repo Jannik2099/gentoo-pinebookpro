@@ -1,0 +1,8 @@
+usage: prepare.sh [option yes|no]
+
+option [default] description:
+	-h,--help					display this help
+	--gles2			[yes]:			use gles2 instead of OpenGL where applicable. recommended with panfrost
+	--manjaro_kernel	[yes]:			use the manjaro kernel and firmware files. comes with update and install scripts
+	--rootuuid		[UUID of the CHROOT]:	the UUID to be used in extlinux.conf. leave out for auto detect
+	--zram			[yes]:			configure zram as swap. I heavily recommend this for Gentoo usage
