@@ -81,12 +81,14 @@ if [ "$manjaro_kernel" != "no" ]; then
 	echo "installed manjaro kernel scripts"
 
 	if [ `test ! -f /usr/bin/git && echo 1` ]; then
-		echo "syncing repo - this might take a while"
-		emerge-webrsync
+		if [ `test ! -d /var/db/repos && echo 1` ]; then
+			echo "syncing repo - this might take a while"
+			emerge-webrsync
+		fi
 		echo "updating portage - this might take a while"
 		emerge -u1 sys-apps/portage
 		echo "installing git - this might take a while"
-		emerge dev-vcs/git
+		emerge -u dev-vcs/git
 	fi
 
 	echo "fetching manjaro sources - this might take a while"
