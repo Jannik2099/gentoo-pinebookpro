@@ -65,7 +65,7 @@ install -Dm755 $FILES/overrides/default-overrides.sh /etc/portage/repo.postsync.
 install -Dm644 $FILES/overrides/default-overrides.patch /etc/portage/repo.postsync.d
 echo "installed default profile patches"
 
-if [ "$gles2" = "yes" ]; then
+if [ "$gles2" != "no" ]; then
 	install -Dm755 $FILES/overrides/gles2-overrides.sh /etc/portage/repo.postsync.d
 	install -Dm644 $FILES/overrides/gles2-overrides-1.patch /etc/portage/repo.postsync.d
 	install -Dm644 $FILES/overrides/gles2-overrides-2.patch /etc/portage/repo.postsync.d
