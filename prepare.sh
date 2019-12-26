@@ -2,6 +2,11 @@
 FILES=`readlink -f $0 | xargs dirname`
 TEMPDIR=/var/tmp/gentoo-pinebookpro
 
+if [ "`stat -c %d:%i /`" = "`stat -c %d:%i /proc/1/root/.`" ]; then
+	echo "not running in a chroot!!!"
+	exit 1
+fi
+
 if [ `expr $# % 2` -eq 1 ]; then
 	echo "Invalid prompts, usage is ./prepare.sh --parameter1 value1 --parameter2 value2 ..."
 	exit 1
