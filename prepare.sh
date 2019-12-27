@@ -1,5 +1,7 @@
 #!/bin/sh
 
+unalias -a
+
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 	cat "$(readlink -f "$0" | xargs dirname)/helpfile"
 	exit 0
@@ -103,7 +105,7 @@ if [ "${manjaro_kernel}" != "no" ]; then
 	eselect kernel set linux-pinebook-pro
 	mkdir -p /usr/src/manjaro_kernel_scripts/patches
 	git -C /usr/src/manjaro_kernel_scripts/patches clone https://gitlab.manjaro.org/manjaro-arm/packages/core/linux-pinebookpro
-	cp /usr/src/linux/arch/arm64/configs/pinebook_pro_defconfig /usr/src/linux/.config
+	cp /usr/src/manjaro_kernel_scripts_patches_linux-pinebookpro/config /usr/src/linux-pinebook-pro/.config
 	echo "installed manjaro kernel sources"
 
 	mkdir -p "${TEMPDIR}"
