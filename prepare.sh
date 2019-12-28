@@ -121,7 +121,7 @@ if [ "${manjaro_kernel}" != "no" ]; then
 
 	install -Dm755 "${FILES}"/manjaro_kernel_scripts/extlinux.conf /boot/extlinux
 	if [ "${ROOTUUID}" != "" ] && [ "${ROOTUUID}" != "no" ]; then
-		ROOTUUID=$(findmnt --target / -o UUID | grep -v UUID)
+		ROOTUUID=$(findmnt --target / -no UUID)
 	fi
 	if [ "${ROOTUUID}" = "" ]; then
 		echo "no ROOT UUID set"
