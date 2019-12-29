@@ -1,5 +1,5 @@
 --- package.use.mask	2018-09-13 17:39:27.000000000 +0200
-+++ package.use.mask2	2019-12-10 15:05:59.034181036 +0100
++++ package.use.mask.patched	2019-12-10 15:05:59.034181036 +0100
 @@ -4,17 +4,17 @@
  # USE=gles2 in the following packages disables full OpenGL
  # Upstream does not test for that case and packages frequently

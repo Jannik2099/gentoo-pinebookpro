@@ -66,7 +66,7 @@ echo "applied fix for sddm login"
 
 sed -i "s/COMMON_FLAGS=\"/COMMON_FLAGS=\"-march=armv8-a+crc+crypto -mcpu=cortex-a72.cortex-a53 /" /etc/portage/make.conf
 if [ "$(grep -e MAKEOPTS /etc/portage/make.conf)" = "" ]; then
-	echo "MAKEOPTS=\"-j6\"" >> /etc/portage/make.conf
+	echo "MAKEOPTS=\"-j6 -l10\"" >> /etc/portage/make.conf
 fi
 echo "applied optimal settings to make.conf"
 
@@ -86,6 +86,9 @@ if [ "${gles2}" != "no" ]; then
 	echo "installed gles2 profile patches"
 	echo "NOTE: this will disable OpenGL acceleration in place of gles2!"
 fi
+
+#Should gles2 be applied via make.conf or profiles/desktop/make.defaults ?
+#TODO: add a script to revert these profile changes if desired
 
 if [ "${manjaro_kernel}" != "no" ]; then
 	install -Dm755 "${FILES}"/manjaro_kernel_scripts/kupdate.sh /usr/src/manjaro_kernel_scripts
