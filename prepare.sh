@@ -70,9 +70,13 @@ if [ "$(grep -e MAKEOPTS /etc/portage/make.conf)" = "" ]; then
 fi
 echo "applied optimal settings to make.conf"
 
-install -Dm755 "${FILES}"/overrides/default-overrides.sh /etc/portage/repo.postsync.d
-install -Dm644 "${FILES}"/overrides/default-overrides.patch /etc/portage/repo.postsync.d
-echo "installed default profile patches"
+#install -Dm755 "${FILES}"/overrides/default-overrides.sh /etc/portage/repo.postsync.d
+#install -Dm644 "${FILES}"/overrides/default-overrides.patch /etc/portage/repo.postsync.d
+#echo "installed default profile patches"
+
+#There are currently no profile overrides necessary for succesfully building stuff (that I know of), I'll leave this here to uncomment when needed
+#Last override was related to firefox neon, closed by the arm64 profile https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=3cb587fffab8ed32347dc455d2dc59a51cff351e
+#TODO: have a cleaner implementation of profile overrides - is this possible just with patching use.mask and use.force in profiles/base ?
 
 if [ "${gles2}" != "no" ]; then
 	install -Dm755 "${FILES}"/overrides/gles2-overrides.sh /etc/portage/repo.postsync.d
