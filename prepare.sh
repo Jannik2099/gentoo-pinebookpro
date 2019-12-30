@@ -70,8 +70,9 @@ if [ "$(grep -e MAKEOPTS /etc/portage/make.conf)" = "" ]; then
 fi
 echo "applied optimal settings to make.conf"
 
-#install -Dm755 "${FILES}"/overrides/default-overrides.sh /etc/portage/repo.postsync.d
-#install -Dm644 "${FILES}"/overrides/default-overrides.patch /etc/portage/repo.postsync.d
+#mkdir -p /etc/portage/repo.postsync.d
+#install -m 755 "${FILES}"/overrides/default-overrides.sh /etc/portage/repo.postsync.d
+#install -m 644 "${FILES}"/overrides/default-overrides.patch /etc/portage/repo.postsync.d
 #echo "installed default profile patches"
 
 #There are currently no profile overrides necessary for succesfully building stuff (that I know of), I'll leave this here to uncomment when needed
@@ -79,9 +80,9 @@ echo "applied optimal settings to make.conf"
 #TODO: have a cleaner implementation of profile overrides - is this possible just with patching use.mask and use.force in profiles/base ?
 
 if [ "${gles2}" != "no" ]; then
-	install -Dm755 "${FILES}"/overrides/gles2-overrides.sh /etc/portage/repo.postsync.d
-	install -Dm644 "${FILES}"/overrides/gles2-overrides-1.patch /etc/portage/repo.postsync.d
-	install -Dm644 "${FILES}"/overrides/gles2-overrides-2.patch /etc/portage/repo.postsync.d
+	install -Dm 755 "${FILES}"/overrides/gles2-overrides.sh /etc/portage/repo.postsync.d/gles2-overrides.sh
+	install -Dm 644 "${FILES}"/overrides/gles2-overrides-1.patch /etc/portage/repo.postsync.d/gles2-overrides-1.patch
+	install -Dm 644 "${FILES}"/overrides/gles2-overrides-2.patch /etc/portage/repo.postsync.d/gles2-overrides-2.patch
 	sed -i "s/USE=\"/USE=\"gles2 /" /etc/portage/make.conf
 	echo "installed gles2 profile patches"
 	echo "NOTE: this will disable OpenGL acceleration in place of gles2!"
@@ -91,9 +92,9 @@ fi
 #TODO: add a script to revert these profile changes if desired
 
 if [ "${manjaro_kernel}" != "no" ]; then
-	install -Dm755 "${FILES}"/manjaro_kernel_scripts/kupdate.sh /usr/src/manjaro_kernel_scripts
-	install -Dm755 "${FILES}"/manjaro_kernel_scripts/kinstall.sh /usr/src/manjaro_kernel_scripts
-	install -Dm755 "${FILES}"/manjaro_kernel_scripts/envvars.sh /usr/src/manjaro_kernel_scripts
+	install -Dm 755 "${FILES}"/manjaro_kernel_scripts/kupdate.sh /usr/src/manjaro_kernel_scripts/kupdate.sh
+	install -Dm 755 "${FILES}"/manjaro_kernel_scripts/kinstall.sh /usr/src/manjaro_kernel_scripts/kinstall.sh
+	install -Dm 755 "${FILES}"/manjaro_kernel_scripts/envvars.sh /usr/src/manjaro_kernel_scripts/envvars.sh
 	echo "installed manjaro kernel scripts"
 
 	if test ! -f /usr/bin/git; then
@@ -112,13 +113,13 @@ if [ "${manjaro_kernel}" != "no" ]; then
 	eselect kernel set linux-pinebook-pro
 	mkdir -p /usr/src/manjaro_kernel_scripts/patches
 	git -C /usr/src/manjaro_kernel_scripts/patches clone https://gitlab.manjaro.org/manjaro-arm/packages/core/linux-pinebookpro
-	cp /usr/src/manjaro_kernel_scripts_patches_linux-pinebookpro/config /usr/src/linux-pinebook-pro/.config
+	cp /usr/src/manjaro_kernel_scripts/patches/linux-pinebookpro/config /usr/src/linux-pinebook-pro/.config
 	echo "installed manjaro kernel sources"
 
 	mkdir -p "${TEMPDIR}"
 
 	git -C "${TEMPDIR}" clone https://gitlab.manjaro.org/manjaro-arm/packages/community/pinebookpro-post-install.git
-	install -Dm644 "${TEMPDIR}"/pinebookpro-post-install/10-usb-kbd.hwdb /etc/udev/hwdb.d
+	install -Dm 644 "${TEMPDIR}"/pinebookpro-post-install/10-usb-kbd.hwdb /etc/udev/hwdb.d/10-usb-kbd.hwdb
 
 	git -C "${TEMPDIR}" clone https://gitlab.manjaro.org/tsys/pinebook-firmware.git
 	mkdir -p /lib/firmware
@@ -126,7 +127,7 @@ if [ "${manjaro_kernel}" != "no" ]; then
 	cp -R "${TEMPDIR}"/pinebook-firmware/rockchip /lib/firmware
 	echo "installed manjaro firmware"
 
-	install -Dm755 "${FILES}"/manjaro_kernel_scripts/extlinux.conf /boot/extlinux
+	install -Dm 755 "${FILES}"/manjaro_kernel_scripts/extlinux.conf /boot/extlinux/extlinux.conf
 	if [ "${ROOTUUID}" != "" ] && [ "${ROOTUUID}" != "no" ]; then
 		ROOTUUID=$(findmnt --target / -no UUID)
 	fi
@@ -141,10 +142,10 @@ fi
 
 if [ "${zram}" != "no" ]; then
 	if [ "${init}" = "systemd" ]; then
-		install -Dm644 "${FILES}"/zram/zram0.service /etc/systemd/system
+		install -Dm 644 "${FILES}"/zram/zram0.service /etc/systemd/system/zram0.service
 		ln -s /etc/systemd/system/zram0.service /etc/sysemd/system/multi-user.target.wants/zram0.service
 	else
-		install -Dm755 "${FILES}"/zram/zram0 /etc/init.d
+		install -m 755 "${FILES}"/zram/zram0 /etc/init.d/zram0
 		ln -s /etc/init.d/zram0 /etc/runlevels/default/zram0
 	fi
 	echo "enabled zram swap drive"
