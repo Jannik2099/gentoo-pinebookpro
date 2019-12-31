@@ -37,6 +37,10 @@ while [ "${i}" -le "${j}" ]; do
 		manjaro_kernel=${2}
 		;;
 
+		--wayland)
+		wayland=${2}
+		;;
+
 		--rootuuid)
 		ROOTUUID=${2}
 		;;
@@ -90,6 +94,13 @@ fi
 
 #Should gles2 be applied via make.conf or profiles/desktop/make.defaults ?
 #TODO: add a script to revert these profile changes if desired
+
+if [ "${wayland}" = "yes" ]; then
+	install -Dm 755 "${FILES}"/overrides/wayland-overrides.sh /etc/portage/repo.postsync.d/wayland-overrides.sh
+	install -Dm 644 "${FILES}"/overrides/wayland-overrides-1.patch /etc/portage/repo.postsync.d/wayland-overrides-1.patch
+	sed -i "s/USE=\"USE=\"wayland /" /etc/portage/make.conf
+	echo "installed wayland profile patches"
+fi
 
 if [ "${manjaro_kernel}" != "no" ]; then
 	install -Dm 755 "${FILES}"/manjaro_kernel_scripts/kupdate.sh /usr/src/manjaro_kernel_scripts/kupdate.sh

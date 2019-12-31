@@ -1,0 +1,19 @@
+--- package.use.stable.mask	2019-11-28 21:09:38.000000000 +0100
++++ package.use.stable.mask.patched	2019-12-30 22:19:22.956795124 +0100
+@@ -12,11 +12,11 @@
+ 
+ # Andreas Sturmlechner <asturm@gentoo.org> (2019-09-14)
+ # media-video/pipewire is not stable yet
+-dev-libs/weston pipewire
+-kde-apps/krfb wayland
+-kde-plasma/xdg-desktop-portal-kde screencast
+-sys-apps/xdg-desktop-portal screencast
+-x11-wm/mutter screencast
++#dev-libs/weston pipewire
++#kde-apps/krfb wayland
++#kde-plasma/xdg-desktop-portal-kde screencast
++#sys-apps/xdg-desktop-portal screencast
++#x11-wm/mutter screencast
+ 
+ # Aaron Bauman (2019-08-01)
+ # app-text/docbook2X fails test
