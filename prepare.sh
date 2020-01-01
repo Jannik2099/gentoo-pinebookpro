@@ -154,9 +154,9 @@ fi
 if [ "${zram}" != "no" ]; then
 	if [ "${init}" = "systemd" ]; then
 		install -Dm 644 "${FILES}"/zram/zram0.service /etc/systemd/system/zram0.service
-		ln -s /etc/systemd/system/zram0.service /etc/sysemd/system/multi-user.target.wants/zram0.service
+		ln -s /etc/systemd/system/zram0.service /etc/systemd/system/multi-user.target.wants/zram0.service
 	else
-		install -m 755 "${FILES}"/zram/zram0 /etc/init.d/zram0
+		install -Dm 755 "${FILES}"/zram/zram0 /etc/init.d/zram0
 		ln -s /etc/init.d/zram0 /etc/runlevels/default/zram0
 	fi
 	echo "enabled zram swap drive"
