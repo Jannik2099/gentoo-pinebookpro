@@ -17,6 +17,7 @@ if [ "$(stat -c %d:%i /)" = "$(stat -c %d:%i /proc/1/root/.)" ]; then
 	exit 1
 fi
 
+source /etc/profile
 FILES=$(readlink -f "$0" | xargs dirname)
 TEMPDIR=/var/tmp/gentoo-pinebookpro
 
