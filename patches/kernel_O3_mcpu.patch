@@ -6,7 +6,7 @@ index 2c0238ce0..37e952c08 100644
  CPPFLAGS_vmlinux.lds = -DTEXT_OFFSET=$(TEXT_OFFSET)
  GZFLAGS		:=-9
  
-+ifeq ($(CONFIG_CC_A72.A53), y)
++ifeq ($(CONFIG_CC_A72A53), y)
 +KBUILD_CFLAGS += -mcpu=cortex-a72.cortex-a53
 +endif
 +
@@ -31,8 +31,8 @@ index b4daad2ba..d37899ae7 100644
  
  endchoice
  
-+config CC_A72.A53
-+	bool "pass -mcpu=cortex-a72.cortex-a53 to the compiler
++config CC_A72A53
++	bool "pass -mcpu=cortex-a72.cortex-a53 to the compiler"
 +
  config HAVE_LD_DEAD_CODE_DATA_ELIMINATION
  	bool
