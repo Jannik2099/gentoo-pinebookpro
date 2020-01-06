@@ -1,0 +1,87 @@
+This patch is an adaptation of a clearlinux patch by Jim Kukunas
+You can find the original at https://github.com/clearlinux-pkgs/linux/blob/master/0109-raid6-add-Kconfig-option-to-skip-raid6-benchmarking.patch
+
+diff --git a/lib/Kconfig b/lib/Kconfig
+index 3321d04df..e4343fa05 100644
+--- a/lib/Kconfig
++++ b/lib/Kconfig
+@@ -8,8 +8,7 @@ config BINARY_PRINTF
+ 
+ menu "Library routines"
+ 
+-config RAID6_PQ
+-	tristate
++source "lib/raid6/Kconfig"
+ 
+ config RAID6_PQ_BENCHMARK
+ 	bool "Automatically choose fastest RAID6 PQ functions"
+diff --git a/lib/raid6/Kconfig b/lib/raid6/Kconfig
+new file mode 100644
+index 000000000..a2e91531a
+--- /dev/null
++++ b/lib/raid6/Kconfig
+@@ -0,0 +1,18 @@
++menu "RAID6"
++
++config RAID6_PQ
++	tristate
++
++config RAID6_FORCE_NEON
++	bool "Always use NEON RAID6 recovery Algorithm"
++	default n
++	depends on ARM64
++	depends on RAID6_PQ
++	help
++		If this option is not set, on every boot the kernel will
++		benchmark each optimized version of the RAID6 recovery and
++		syndrome generation algorithms and will select the one that
++		performs best. Microbenchmarking each version negatively
++		affects boot time.
++
++endmenu
+diff --git a/lib/raid6/algos.c b/lib/raid6/algos.c
+index 17417eee0..8fc6b3672 100644
+--- a/lib/raid6/algos.c
++++ b/lib/raid6/algos.c
+@@ -124,6 +124,33 @@ const struct raid6_recov_calls *const raid6_recov_algos[] = {
+ #define time_before(x, y) ((x) < (y))
+ #endif
+ 
++#ifdef CONFIG_RAID6_FORCE_NEON
++int __init raid6_select_algo(void)
++{
++	const struct raid6_recov_calls *recov_fallback = &raid6_recov_intx1;
++	const struct raid6_recov_calls *recov_algo;
++	const struct raid6_calls *gen_fallback;
++	const struct raid6_calls *gen_algo;
++
++	gen_fallback = &raid6_neonx8;
++	recov_algo = &raid6_recov_neon;
++	gen_algo = &raid6_neonx8;
++
++	if (recov_algo->valid != NULL && recov_algo->valid() == 0)
++		recov_algo = recov_fallback;
++
++	pr_info("raid6: Forced to use recovery algorithm %s\n", recov_algo->name);
++
++	raid6_2data_recov = recov_algo->data2;
++	raid6_datap_recov = recov_algo->datap;
++
++	pr_info("raid6: Forced gen() algo %s\n", gen_algo->name);
++
++	raid6_call = *gen_algo;
++
++	return gen_algo && recov_algo ? 0 : -EINVAL;
++}
++#else
+ static inline const struct raid6_recov_calls *raid6_choose_recov(void)
+ {
+ 	const struct raid6_recov_calls *const *algo;
+@@ -260,6 +287,7 @@ int __init raid6_select_algo(void)
+ 
+ 	return gen_best && rec_best ? 0 : -EINVAL;
+ }
++#endif
+ 
+ static void raid6_exit(void)
+ {
