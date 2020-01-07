@@ -17,9 +17,8 @@ if [ "$(stat -c %d:%i /)" = "$(stat -c %d:%i /proc/1/root/.)" ]; then
 	exit 1
 fi
 
-source /etc/profile
+. /etc/profile
 FILES=$(readlink -f "$0" | xargs dirname)
-TEMPDIR=/var/tmp/gentoo-pinebookpro
 
 if [ $(($# % 2)) -eq 1 ]; then
 	echo "Invalid prompts, usage is ./prepare.sh --parameter1 value1 --parameter2 value2 ..."
@@ -34,16 +33,8 @@ while [ "${i}" -le "${j}" ]; do
 		gles2=${2}
 		;;
 
-		--manjaro_kernel)
-		manjaro_kernel=${2}
-		;;
-
 		--wayland)
 		wayland=${2}
-		;;
-
-		--rootuuid)
-		ROOTUUID=${2}
 		;;
 
 		--zram)
@@ -103,55 +94,6 @@ if [ "${wayland}" = "yes" ]; then
 	echo "installed wayland profile patches"
 fi
 
-if [ "${manjaro_kernel}" != "no" ]; then
-	install -Dm 755 "${FILES}"/manjaro_kernel_scripts/kupdate.sh /usr/src/manjaro_kernel_scripts/kupdate.sh
-	install -Dm 755 "${FILES}"/manjaro_kernel_scripts/kinstall.sh /usr/src/manjaro_kernel_scripts/kinstall.sh
-	install -Dm 755 "${FILES}"/manjaro_kernel_scripts/envvars.sh /usr/src/manjaro_kernel_scripts/envvars.sh
-	echo "installed manjaro kernel scripts"
-
-	if test ! -f /usr/bin/git; then
-		if test ! -d /var/db/repos; then
-			echo "syncing repo - this might take a while"
-			emerge-webrsync
-		fi
-		echo "updating portage - this might take a while"
-		emerge -u1 sys-apps/portage
-		echo "installing git - this might take a while"
-		emerge -u dev-vcs/git
-	fi
-
-	echo "fetching manjaro sources - this might take a while"
-	git -C /usr/src clone https://gitlab.manjaro.org/tsys/linux-pinebook-pro.git
-	eselect kernel set linux-pinebook-pro
-	mkdir -p /usr/src/manjaro_kernel_scripts/patches
-	git -C /usr/src/manjaro_kernel_scripts/patches clone https://gitlab.manjaro.org/manjaro-arm/packages/core/linux-pinebookpro
-	cp /usr/src/manjaro_kernel_scripts/patches/linux-pinebookpro/config /usr/src/linux-pinebook-pro/.config
-	echo "installed manjaro kernel sources"
-
-	mkdir -p "${TEMPDIR}"
-
-	git -C "${TEMPDIR}" clone https://gitlab.manjaro.org/manjaro-arm/packages/community/pinebookpro-post-install.git
-	install -Dm 644 "${TEMPDIR}"/pinebookpro-post-install/10-usb-kbd.hwdb /etc/udev/hwdb.d/10-usb-kbd.hwdb
-
-	git -C "${TEMPDIR}" clone https://gitlab.manjaro.org/tsys/pinebook-firmware.git
-	mkdir -p /lib/firmware
-	cp -R "${TEMPDIR}"/pinebook-firmware/brcm /lib/firmware
-	cp -R "${TEMPDIR}"/pinebook-firmware/rockchip /lib/firmware
-	echo "installed manjaro firmware"
-
-	install -Dm 755 "${FILES}"/manjaro_kernel_scripts/extlinux.conf /boot/extlinux/extlinux.conf
-	if [ "${ROOTUUID}" != "" ] && [ "${ROOTUUID}" != "no" ]; then
-		ROOTUUID=$(findmnt --target / -no UUID)
-	fi
-	if [ "${ROOTUUID}" = "" ]; then
-		echo "no ROOT UUID set"
-	else
-		echo "using ${ROOTUUID} as ROOT UUID"
-		sed -i "s/root=UUID=/root=UUID=${ROOTUUID}/" /boot/extlinux/extlinux.conf
-	fi
-	echo "installed basic extlinux.conf"
-fi
-
 if [ "${zram}" != "no" ]; then
 	if [ "${init}" = "systemd" ]; then
 		install -Dm 644 "${FILES}"/zram/zram0.service /etc/systemd/system/zram0.service
@@ -162,3 +104,11 @@ if [ "${zram}" != "no" ]; then
 	fi
 	echo "enabled zram swap drive"
 fi
+
+if ! test -d /var/db/repos/gentoo; then
+	echo "syncing main repository, this will take a while"
+	sleep 3s
+	emerge-webrsync
+fi
+emerge -u layman
+yes | layman -o https://raw.githubusercontent.com/Jannik2099/pinebookpro-overlay/master/repositories.xml -f -a pinebookpro-overlay
