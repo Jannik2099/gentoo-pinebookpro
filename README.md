@@ -12,6 +12,7 @@ READ THE GENTOO HANDBOOK!!! https://wiki.gentoo.org/wiki/Handbook:AMD64
 
 `./prepare.sh -h` to display usage, this is safe to run in any environment and will not read or write anything.
 
+Do this on your pbp or another aarch 64 environment, qemu works aswell.
 Download a Stage 3 arm64 tarball - usually from http://distfiles.gentoo.org/experimental/arm64/
 Extract the tarball as root, otherwise you'll mess up file permissions!
 Put the files of this repository into the tarball - preferably into /var/tmp/gentoo-pinebookpro
