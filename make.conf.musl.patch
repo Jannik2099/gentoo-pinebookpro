@@ -1,0 +1,11 @@
+--- make.conf	2020-01-13 14:53:42.652313863 +0100
++++ make.conf.musl	2020-01-13 20:25:59.131142619 +0100
+@@ -9,7 +9,7 @@
+ FFLAGS="${COMMON_FLAGS}"
+ # WARNING: Changing your CHOST is not something that should be done lightly.
+ # Please consult https://wiki.gentoo.org/wiki/Changing_the_CHOST_variable before changing.
+-CHOST="aarch64-unknown-linux-gnu"
++CHOST="aarch64-gentoo-linux-musl"
+ 
+ # NOTE: This stage was built with the bindist Use flag enabled
+ PORTDIR="/usr/portage"

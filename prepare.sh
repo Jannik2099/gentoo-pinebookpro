@@ -66,6 +66,9 @@ chmod 4711 /bin/passwd
 echo "applied fix for sddm login"
 
 install -Dm 644 "${FILES}"/make.conf /etc/portage/make.conf
+if test -d /usr/aarch64-gentoo-linux-musl; then
+patch /etc/portage/make.conf make.conf.musl.patch
+fi
 echo "applied optimal settings to make.conf"
 
 #mkdir -p /etc/portage/repo.postsync.d
