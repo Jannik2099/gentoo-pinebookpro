@@ -57,6 +57,8 @@ else
 fi
 echo "detected init=${init}"
 
+install -Dm 644 "${FILES}"/linux-firmware-20191215 /etc/portage/savedconfig/sys-kernel/linux-firmware-20191215
+
 chmod 4711 /bin/passwd
 echo "applied fix for sddm login"
 
@@ -91,7 +93,7 @@ if [ "${wayland}" = "yes" ]; then
 	install -Dm 755 "${FILES}"/overrides/wayland-overrides.sh /etc/portage/repo.postsync.d/wayland-overrides.sh
 	install -Dm 644 "${FILES}"/overrides/wayland-overrides-1.patch /etc/portage/repo.postsync.d/wayland-overrides-1.patch
 	sed -i "s/USE=\"USE=\"wayland /" /etc/portage/make.conf
-	echo "installed wayland profile patches"
+	echo "installed wayland profile patches. using wayland is NOT recommended right now!!!"
 fi
 
 if [ "${zram}" != "no" ]; then
@@ -110,5 +112,6 @@ if ! test -d /var/db/repos/gentoo; then
 	sleep 3s
 	emerge-webrsync
 fi
+
 emerge -u layman
 yes | layman -o https://raw.githubusercontent.com/Jannik2099/pinebookpro-overlay/master/repositories.xml -f -a pinebookpro-overlay
