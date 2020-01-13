@@ -62,10 +62,7 @@ install -Dm 644 "${FILES}"/linux-firmware-20191215 /etc/portage/savedconfig/sys-
 chmod 4711 /bin/passwd
 echo "applied fix for sddm login"
 
-sed -i "s/COMMON_FLAGS=\"/COMMON_FLAGS=\"-march=armv8-a+crc+crypto -mcpu=cortex-a72.cortex-a53 /" /etc/portage/make.conf
-if [ "$(grep -e MAKEOPTS /etc/portage/make.conf)" = "" ]; then
-	echo "MAKEOPTS=\"-j6 -l10\"" >> /etc/portage/make.conf
-fi
+install -Dm 644 "${FILES}"/make.conf /etc/portage/make.conf
 echo "applied optimal settings to make.conf"
 
 #mkdir -p /etc/portage/repo.postsync.d
@@ -113,9 +110,11 @@ if ! test -d /var/db/repos/gentoo; then
 	emerge-webrsync
 fi
 
-emerge -u portage
+echo "installing pinebookpro-overlay"
+emerge portage
 mkdir -p /etc/portage/package.use
 install -Dm 644 "${FILES}"/layman /etc/portage/package.use/layman
 emerge layman
 yes | layman -o https://raw.githubusercontent.com/Jannik2099/pinebookpro-overlay/master/repositories.xml -f -a pinebookpro-overlay
 pach /etc/portage/repos.conf/layman.conf layman.conf.patch
+echo "added pinebookpro-overlay"
