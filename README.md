@@ -13,7 +13,7 @@ READ THE GENTOO HANDBOOK!!! https://wiki.gentoo.org/wiki/Handbook:AMD64
 `./prepare.sh -h` to display usage, this is safe to run in any environment and will not read or write anything.
 
 Download a Stage 3 arm64 tarball - usually from http://distfiles.gentoo.org/experimental/arm64/
-Extract the tarball as root, otherwise you'll mess up file permission!
+Extract the tarball as root, otherwise you'll mess up file permissions!
 Put the files of this repository into the tarball - preferably into /var/tmp/gentoo-pinebookpro
 Chroot into the tarball as explained in the Handbook - https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base#Copy_DNS_info
 Execute the script prepare.sh - it is recommended to not change the default options unless you really know what this will do, and what will break if you do. 
@@ -22,6 +22,8 @@ This script doesn't ship with a bootloader or similar, please consult README.md 
 
 From there on, do the usual tarball installation following the Gentoo Handbook.
 Use `sys-kernel/pinebookpro-manjaro-sources` as the kernel
+
+It's heavily recommended to run the latest mesa, to do so add `media-libs/mesa ~arm64` to your `/etc/portage/package.accept_keywords` . 
 
 ## Changes to the Gentoo repository
 
