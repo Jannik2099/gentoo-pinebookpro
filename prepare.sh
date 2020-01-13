@@ -121,5 +121,5 @@ emerge portage
 install -Dm 644 "${FILES}"/layman /etc/portage/package.use/layman
 emerge layman
 yes | layman -o https://raw.githubusercontent.com/Jannik2099/pinebookpro-overlay/master/repositories.xml -f -a pinebookpro-overlay
-pach /etc/portage/repos.conf/layman.conf layman.conf.patch
+patch /etc/portage/repos.conf/layman.conf layman.conf.patch
 echo "added pinebookpro-overlay"
