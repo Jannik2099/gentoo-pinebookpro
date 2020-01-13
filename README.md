@@ -17,6 +17,8 @@ Put the files of this repository into the tarball - preferably into /var/tmp/gen
 Chroot into the tarball as explained in the Handbook - https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base#Copy_DNS_info
 Execute the script prepare.sh - it is recommended to not change the default options unless you really know what this will do, and what will break if you do. 
 
+This script doesn't ship with a bootloader or similar, please consult README.md in the boot directory
+
 From there on, do the usual tarball installation following the Gentoo Handbook.
 Use `sys-kernel/pinebookpro-manjaro-sources` as the kernel
 
@@ -25,7 +27,7 @@ Use `sys-kernel/pinebookpro-manjaro-sources` as the kernel
 I have changed or added some ebuilds via my overlay `pinebookpro-overlay` . It is installed by the prepare script via layman.
 The Kernel ebuild `sys-kernel/pinebookpro-manjaro-soruces` has been added. `virtual/linux-sources` has been adapted accordingly. The Vanilla and Gentoo sources do not work right now and have been masked.
 The wifi firmware is packaged as `sys-firmware/pinebookpro-firmware` , from `sys-kernel/linux-firmware` only rockchip/dptx.bin is needed, the configuration is done by the script (see `/etc/portage/savedconfig/sys-kernel/linux-firmware-yyyymmdd`)
-An ebuild for miscellaneous fixes `sys-firmware/pinebookpro-misc` has been added. It is required for full functionality.
+An ebuild for miscellaneous fixes `sys-firmware/pinebookpro-misc` has been added. Please emerge this after having booted into Gentoo, it will most likely fail in a chroot. It is required for full functionality.
 The xorg server `x11-base/xorg-server` has been changed to disable glamor when wayland is enabled, as this breaks xwayland applications. This comes at a significant performance cost, to disable this the useflag `USE=glamor` has been added. You can ignore this if you don't want to use wayland.
 The 2D Xorg driver `x11-drivers/xf86-video-fbturbo` has been added. It is required for most DEs that use full OpenGL instead of gles
 
@@ -43,6 +45,9 @@ General:
 
 	Issue:	The PBP charges a lot slower after a while, the charging LED starts blinking
 	Fix	This is a weird safety feature of the battery controller. It usually goes away after charging to full or restarting
+
+	Issue:	The Kernel takes ages to boot!
+	Fix:	Make sure CONFIG_CRYPTO_RSA is a module. Additionally there's another issue where some uboot versions initialize the big cores at 12 MHz, which will slow down things quite a lot until the Kernel loads the cpu governor. This can be fixed by adding maxcpus=4 to your kernel line and then onlining the two big cores afterwards.
 
 KDE Plasma:
 
