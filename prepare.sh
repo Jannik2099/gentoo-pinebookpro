@@ -59,6 +59,9 @@ echo "detected init=${init}"
 
 install -Dm 644 "${FILES}"/linux-firmware-20191215 /etc/portage/savedconfig/sys-kernel/linux-firmware-20191215
 
+mkdir -p /etc/portage/package.use
+install -Dm 644 "${FILES}"/mesa /etc/portage/package.use/mesa
+
 chmod 4711 /bin/passwd
 echo "applied fix for sddm login"
 
@@ -112,7 +115,6 @@ fi
 
 echo "installing pinebookpro-overlay"
 emerge portage
-mkdir -p /etc/portage/package.use
 install -Dm 644 "${FILES}"/layman /etc/portage/package.use/layman
 emerge layman
 yes | layman -o https://raw.githubusercontent.com/Jannik2099/pinebookpro-overlay/master/repositories.xml -f -a pinebookpro-overlay
