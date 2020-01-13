@@ -41,7 +41,7 @@ You can and will override this a lot by editing `/etc/portage/package.accept_key
 General:
 
 	Issue:	The keyboard / touchpad is unresponsive sometimes
-	Fix:	Make sure you have updated the keyboard / touchpad firmware, see ...
+	Fix:	Make sure you have updated the keyboard / touchpad firmware, see https://github.com/ayufan-rock64/pinebook-pro-keyboard-updater
 
 	Issue:	The PBP charges a lot slower after a while, the charging LED starts blinking
 	Fix	This is a weird safety feature of the battery controller. It usually goes away after charging to full or restarting
