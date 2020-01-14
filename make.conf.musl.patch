@@ -8,4 +8,4 @@
 +CHOST="aarch64-gentoo-linux-musl"
  
  # NOTE: This stage was built with the bindist Use flag enabled
- PORTDIR="/usr/portage"
+ PORTDIR="/var/db/repos/gentoo"
