@@ -14,10 +14,12 @@ READ THE GENTOO HANDBOOK!!! https://wiki.gentoo.org/wiki/Handbook:AMD64
 
 Do this on your pbp or another aarch 64 environment, qemu works aswell.
 Download a Stage 3 arm64 tarball - usually from http://distfiles.gentoo.org/experimental/arm64/
+NOTE: The systemd 201904 tarball seems to be broken, use the newer 201909 tarball!
 Extract the tarball as root, otherwise you'll mess up file permissions!
 Put the files of this repository into the tarball - preferably into /var/tmp/gentoo-pinebookpro
 Chroot into the tarball as explained in the Handbook - https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base#Copy_DNS_info
 Execute the script prepare.sh - it is recommended to not change the default options unless you really know what this will do, and what will break if you do. 
+Should the script fail you can run it again without having to unpack a new tarball.
 
 This script doesn't ship with a bootloader or similar, please consult README.md in the boot directory
 
@@ -52,6 +54,9 @@ General:
 
 	Issue:	The Kernel takes ages to boot!
 	Fix:	Make sure CONFIG_CRYPTO_RSA is a module. Additionally there's another issue where some uboot versions initialize the big cores at 12 MHz, which will slow down things quite a lot until the Kernel loads the cpu governor. This can be fixed by adding maxcpus=4 to your kernel line and then onlining the two big cores afterwards.
+
+	Issue:	Wifi bad
+	Fix:	The wifi powersave seems to be broken, disable it with `iwconfig wlan0 power off` - what an unfortunate naming
 
 KDE Plasma:
 
