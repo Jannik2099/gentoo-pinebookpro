@@ -1,9 +1,0 @@
---- layman.conf	2020-01-13 05:14:55.413150964 +0100
-+++ layman.conf.patched	2020-01-13 05:14:35.593198278 +0100
-@@ -2,5 +2,5 @@
- priority = 50
- location = /var/lib/layman/pinebookpro-overlay
- layman-type = git
--auto-sync = No
-+auto-sync = yes
- 

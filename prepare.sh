@@ -67,7 +67,7 @@ echo "applied fix for sddm login"
 
 install -Dm 644 "${FILES}"/make.conf /etc/portage/make.conf
 if test -d /usr/aarch64-gentoo-linux-musl; then
-patch /etc/portage/make.conf make.conf.musl.patch
+	patch /etc/portage/make.conf make.conf.musl.patch
 fi
 echo "applied optimal settings to make.conf"
 
@@ -110,16 +110,18 @@ if [ "${zram}" != "no" ]; then
 	echo "enabled zram swap drive"
 fi
 
-if ! test -d /var/db/repos/gentoo; then
-	echo "syncing main repository, this will take a while"
-	sleep 3s
-	emerge-webrsync
-fi
+echo "syncing main repository, this will take a while"
+emerge-webrsync
 
-echo "installing pinebookpro-overlay"
+echo "installing pinebookpro-overlay, this will take an even longer while"
 emerge portage
 install -Dm 644 "${FILES}"/layman /etc/portage/package.use/layman
 emerge layman
 yes | layman -o https://raw.githubusercontent.com/Jannik2099/pinebookpro-overlay/master/repositories.xml -f -a pinebookpro-overlay
-pach /etc/portage/repos.conf/layman.conf layman.conf.patch
-echo "added pinebookpro-overlay"
+echo "installed pinebookpro-overlay"
+echo "NOTE: to auto-update this overlay, you might have to edit /etc/portage/repos.conf/layman.conf"
+
+if test -d /usr/aarch64-gentoo-linux-musl; then
+	layman -a musl
+	echo "installed musl overlay"
+fi
