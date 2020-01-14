@@ -71,6 +71,11 @@ if test -d /usr/aarch64-gentoo-linux-musl; then
 fi
 echo "applied optimal settings to make.conf"
 
+rm -rf /usr/portage
+mkdir -p /var/db/repos
+mkdir -p /var/cache/distfiles
+mkdir -p /var/cache/binpkgs
+
 #mkdir -p /etc/portage/repo.postsync.d
 #install -m 755 "${FILES}"/overrides/default-overrides.sh /etc/portage/repo.postsync.d
 #install -m 644 "${FILES}"/overrides/default-overrides.patch /etc/portage/repo.postsync.d
@@ -95,7 +100,7 @@ fi
 if [ "${wayland}" = "yes" ]; then
 	install -Dm 755 "${FILES}"/overrides/wayland-overrides.sh /etc/portage/repo.postsync.d/wayland-overrides.sh
 	install -Dm 644 "${FILES}"/overrides/wayland-overrides-1.patch /etc/portage/repo.postsync.d/wayland-overrides-1.patch
-	sed -i "s/USE=\"USE=\"wayland /" /etc/portage/make.conf
+	sed -i "s/USE=\"/USE=\"wayland /" /etc/portage/make.conf
 	echo "installed wayland profile patches. using wayland is NOT recommended right now!!!"
 fi
 
@@ -114,9 +119,9 @@ echo "syncing main repository, this will take a while"
 emerge-webrsync
 
 echo "installing pinebookpro-overlay, this will take an even longer while"
-emerge portage
+emerge -u portage
 install -Dm 644 "${FILES}"/layman /etc/portage/package.use/layman
-emerge layman
+emerge -u layman
 yes | layman -o https://raw.githubusercontent.com/Jannik2099/pinebookpro-overlay/master/repositories.xml -f -a pinebookpro-overlay
 echo "installed pinebookpro-overlay"
 echo "NOTE: to auto-update this overlay, you might have to edit /etc/portage/repos.conf/layman.conf"
@@ -125,3 +130,6 @@ if test -d /usr/aarch64-gentoo-linux-musl; then
 	layman -a musl -p 51
 	echo "installed musl overlay"
 fi
+
+echo "don't forget to select a profile!"
+echo "see eselect profile"
