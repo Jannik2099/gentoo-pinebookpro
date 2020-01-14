@@ -122,6 +122,6 @@ echo "installed pinebookpro-overlay"
 echo "NOTE: to auto-update this overlay, you might have to edit /etc/portage/repos.conf/layman.conf"
 
 if test -d /usr/aarch64-gentoo-linux-musl; then
-	layman -a musl
+	layman -a musl -p 51
 	echo "installed musl overlay"
 fi
