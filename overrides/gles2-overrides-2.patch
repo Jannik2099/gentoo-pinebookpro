@@ -4,8 +4,8 @@
  
  # Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org> (2013-07-13)
  # GL/GLES support in cairo is mutually exclusive, bug #428770.
--x11-libs/cairo gles2
-+#x11-libs/cairo gles2
+-x11-libs/cairo gles2-only
++#x11-libs/cairo gles2-only
 +
 +#overriden by your gles2 choice, disabling the opengl backend instead
 +x11-libs/cairo opengl

@@ -89,7 +89,7 @@ if [ "${gles2}" != "no" ]; then
 	install -Dm 755 "${FILES}"/overrides/gles2-overrides.sh /etc/portage/repo.postsync.d/gles2-overrides.sh
 	install -Dm 644 "${FILES}"/overrides/gles2-overrides-1.patch /etc/portage/repo.postsync.d/gles2-overrides-1.patch
 	install -Dm 644 "${FILES}"/overrides/gles2-overrides-2.patch /etc/portage/repo.postsync.d/gles2-overrides-2.patch
-	sed -i "s/USE=\"/USE=\"gles2 /" /etc/portage/make.conf
+	sed -i "s/USE=\"/USE=\"gles2 gles2-only /" /etc/portage/make.conf
 	echo "installed gles2 profile patches"
 	echo "NOTE: this will disable OpenGL acceleration in place of gles2!"
 fi
