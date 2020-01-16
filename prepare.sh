@@ -72,7 +72,7 @@ fi
 echo "applied optimal settings to make.conf"
 
 rm -rf /usr/portage
-mkdir -p /var/db/repos
+mkdir -p /var/db/repos/gentoo
 mkdir -p /var/cache/distfiles
 mkdir -p /var/cache/binpkgs
 
