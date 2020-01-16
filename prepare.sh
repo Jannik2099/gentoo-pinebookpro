@@ -76,30 +76,13 @@ mkdir -p /var/db/repos
 mkdir -p /var/cache/distfiles
 mkdir -p /var/cache/binpkgs
 
-#mkdir -p /etc/portage/repo.postsync.d
-#install -m 755 "${FILES}"/overrides/default-overrides.sh /etc/portage/repo.postsync.d
-#install -m 644 "${FILES}"/overrides/default-overrides.patch /etc/portage/repo.postsync.d
-#echo "installed default profile patches"
-
-#There are currently no profile overrides necessary for succesfully building stuff (that I know of), I'll leave this here to uncomment when needed
-#Last override was related to firefox neon, closed by the arm64 profile https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=3cb587fffab8ed32347dc455d2dc59a51cff351e
-#TODO: have a cleaner implementation of profile overrides - is this possible just with patching use.mask and use.force in profiles/base ?
-
 if [ "${gles2}" != "no" ]; then
-	install -Dm 755 "${FILES}"/overrides/gles2-overrides.sh /etc/portage/repo.postsync.d/gles2-overrides.sh
-	install -Dm 644 "${FILES}"/overrides/gles2-overrides-1.patch /etc/portage/repo.postsync.d/gles2-overrides-1.patch
-	install -Dm 644 "${FILES}"/overrides/gles2-overrides-2.patch /etc/portage/repo.postsync.d/gles2-overrides-2.patch
 	sed -i "s/USE=\"/USE=\"gles2 gles2-only /" /etc/portage/make.conf
 	echo "installed gles2 profile patches"
 	echo "NOTE: this will disable OpenGL acceleration in place of gles2!"
 fi
 
-#Should gles2 be applied via make.conf or profiles/desktop/make.defaults ?
-#TODO: add a script to revert these profile changes if desired
-
 if [ "${wayland}" = "yes" ]; then
-	install -Dm 755 "${FILES}"/overrides/wayland-overrides.sh /etc/portage/repo.postsync.d/wayland-overrides.sh
-	install -Dm 644 "${FILES}"/overrides/wayland-overrides-1.patch /etc/portage/repo.postsync.d/wayland-overrides-1.patch
 	sed -i "s/USE=\"/USE=\"wayland /" /etc/portage/make.conf
 	echo "installed wayland profile patches. using wayland is NOT recommended right now!!!"
 fi
@@ -123,6 +106,9 @@ emerge -u portage
 install -Dm 644 "${FILES}"/layman /etc/portage/package.use/layman
 emerge -u layman
 yes | layman -o https://raw.githubusercontent.com/Jannik2099/pinebookpro-overlay/master/repositories.xml -f -a pinebookpro-overlay
+mkdir -p /etc/portage/repo.postsync.d
+emerge -u pinebookpro-profile-overrides
+find /etc/portage/repo.postsync.d | grep zzzz | grep ".*\.sh" | xargs sh
 echo "installed pinebookpro-overlay"
 echo "NOTE: to auto-update this overlay, you might have to edit /etc/portage/repos.conf/layman.conf"
 

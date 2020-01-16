@@ -34,6 +34,7 @@ I have changed or added some ebuilds via my overlay `pinebookpro-overlay` . It i
 The Kernel ebuild `sys-kernel/pinebookpro-manjaro-soruces` has been added. `virtual/linux-sources` has been adapted accordingly. The Vanilla and Gentoo sources do not work right now and have been masked.
 The wifi firmware is packaged as `sys-firmware/pinebookpro-firmware` , from `sys-kernel/linux-firmware` only rockchip/dptx.bin is needed, the configuration is done by the script (see `/etc/portage/savedconfig/sys-kernel/linux-firmware-yyyymmdd`)
 An ebuild for miscellaneous fixes `sys-firmware/pinebookpro-misc` has been added. Please emerge this after having booted into Gentoo, it will most likely fail in a chroot. It is required for full functionality.
+An ebuild that applies profile overrides `app-portage/pinebookpro-profile-overrides` has been added, this is auto-installed and you really really shouldn't uninstall it.
 The xorg server `x11-base/xorg-server` has been changed to disable glamor when wayland is enabled, as this breaks xwayland applications. This comes at a significant performance cost, to disable this the useflag `USE=glamor` has been added. You can ignore this if you don't want to use wayland.
 The 2D Xorg driver `x11-drivers/xf86-video-fbturbo` has been added. It is required for most DEs that use full OpenGL instead of gles
 
