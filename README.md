@@ -14,19 +14,20 @@ READ THE GENTOO HANDBOOK!!! https://wiki.gentoo.org/wiki/Handbook:AMD64
 
 Do this on your pbp or another aarch 64 environment, qemu works aswell.
 Download a Stage 3 arm64 tarball - usually from http://distfiles.gentoo.org/experimental/arm64/
-NOTE: The systemd 201904 tarball seems to be broken, use the newer 201909 tarball!
 Extract the tarball as root, otherwise you'll mess up file permissions!
 Put the files of this repository into the tarball - preferably into /var/tmp/gentoo-pinebookpro
 Chroot into the tarball as explained in the Handbook - https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base#Copy_DNS_info
 Execute the script prepare.sh - it is recommended to not change the default options unless you really know what this will do, and what will break if you do. 
 Should the script fail you can run it again without having to unpack a new tarball.
+NOTE: there's a bug in glibc which causes EBADFD errors while in the chroot sometimes - rebooting and entering the chroot may fix this, it may not. Any help in debugging this is tremendeously welcome. This seems to only affect the systemd tarballs right now.
 
 This script doesn't ship with a bootloader or similar, please consult README.md in the boot directory
 
 From there on, do the usual tarball installation following the Gentoo Handbook.
 Use `sys-kernel/pinebookpro-manjaro-sources` as the kernel
 
-It's heavily recommended to run the latest mesa, to do so add `media-libs/mesa ~arm64` to your `/etc/portage/package.accept_keywords` . 
+It's heavily recommended to run the latest mesa, to do so add `media-libs/mesa ~arm64` to your `/etc/portage/package.accept_keywords` .
+Similarly, running the latest versions of your DE and the underlying Qt / GTK libs is often a good idea.
 
 ## Changes to the Gentoo repository
 
