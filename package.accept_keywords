@@ -1,0 +1,2 @@
+# required by eselect-repository (argument)
+=app-eselect/eselect-repository-7 ~arm64

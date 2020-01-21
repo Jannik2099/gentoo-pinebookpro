@@ -103,19 +103,14 @@ emerge-webrsync
 
 echo "installing pinebookpro-overlay, this will take an even longer while"
 emerge -u portage
-install -Dm 644 "${FILES}"/layman /etc/portage/package.use/layman
-emerge -u layman
-dispatch-conf
-emerge --resume
-yes | layman -o https://raw.githubusercontent.com/Jannik2099/pinebookpro-overlay/master/repositories.xml -f -a pinebookpro-overlay
-mkdir -p /etc/portage/repo.postsync.d
+install -Dm 644 "${FILES}"/package.accept_keywords /etc/portage/package.accept_keywords
+emerge eselect-repository
+eselect repository add pinebookpro-overlay git https://github.com/Jannik2099/gentoo-pinebookpro.git
 emerge -u pinebookpro-profile-overrides
-find /etc/portage/repo.postsync.d | grep zzzz | grep ".*\.sh" | xargs sh
 echo "installed pinebookpro-overlay"
-echo "NOTE: to auto-update this overlay, you might have to edit /etc/portage/repos.conf/layman.conf"
 
 if test -d /usr/aarch64-gentoo-linux-musl; then
-	layman -a musl -p 51
+	eselect repository enable musl
 	echo "installed musl overlay"
 fi
 
