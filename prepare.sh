@@ -105,7 +105,7 @@ echo "installing pinebookpro-overlay, this will take an even longer while"
 emerge -u portage
 install -Dm 644 "${FILES}"/package.accept_keywords /etc/portage/package.accept_keywords
 emerge eselect-repository
-eselect repository add pinebookpro-overlay git https://github.com/Jannik2099/gentoo-pinebookpro.git
+eselect repository add pinebookpro-overlay git https://github.com/Jannik2099/pinebookpro-overlay.git
 emerge --sync pinebookpro-overlay
 emerge -u pinebookpro-profile-overrides
 echo "installed pinebookpro-overlay"
