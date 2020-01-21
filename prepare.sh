@@ -105,6 +105,8 @@ echo "installing pinebookpro-overlay, this will take an even longer while"
 emerge -u portage
 install -Dm 644 "${FILES}"/layman /etc/portage/package.use/layman
 emerge -u layman
+dispatch-conf
+emerge --resume
 yes | layman -o https://raw.githubusercontent.com/Jannik2099/pinebookpro-overlay/master/repositories.xml -f -a pinebookpro-overlay
 mkdir -p /etc/portage/repo.postsync.d
 emerge -u pinebookpro-profile-overrides
