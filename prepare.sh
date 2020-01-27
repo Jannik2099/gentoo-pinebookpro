@@ -57,7 +57,7 @@ else
 fi
 echo "detected init=${init}"
 
-install -Dm 644 "${FILES}"/linux-firmware-20191215 /etc/portage/savedconfig/sys-kernel/linux-firmware-20191215
+install -Dm 644 "${FILES}"/linux-firmware /etc/portage/savedconfig/sys-kernel/linux-firmware
 
 mkdir -p /etc/portage/package.use
 install -Dm 644 "${FILES}"/mesa /etc/portage/package.use/mesa
