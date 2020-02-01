@@ -101,6 +101,16 @@ fi
 echo "syncing main repository, this will take a while"
 emerge-webrsync
 
+if test -d /usr/aarch64-gentoo-linux-musl; then
+	eselect profile set --force default/linux/arm64/17.0/musl
+else
+	if [ "${init}" = "systemd" ]; then
+		eselect profile set default/linux/arm64/17.0/systemd
+	else
+		eselect profile set default/linux/arm64/17.0
+	fi
+fi
+
 echo "installing pinebookpro-overlay, this will take an even longer while"
 emerge -u portage
 install -Dm 644 "${FILES}"/package.accept_keywords /etc/portage/package.accept_keywords
