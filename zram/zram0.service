@@ -3,7 +3,8 @@ Description=Configure zram0 as swap
 
 [Service]
 Type=oneshot
-ExecStart=modprobe zram && zramctl zram0 -s 12G -t 6 -a lzo_rle
+ExecStart=modprobe zram && zramctl zram0 -s 12G -t 6 -a lzo-rle && mkswap /dev/zram0 && swapon /dev/zram0 -p 100
+ExecStop=swapoff /dev/zram0 && zramctl -r zram0
 
 [Install]
 WantedBy=multi-user.target
