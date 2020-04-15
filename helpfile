@@ -2,6 +2,4 @@ usage: prepare.sh [option yes|no]
 
 option [default] description:
 	-h,--help					display this help
-	--gles2			[yes]:			use gles2 instead of OpenGL where applicable. recommended with panfrost
-	--wayland		[no]:			apply patches to allow use of wayland
 	--zram			[yes]:			configure zram as swap. I heavily recommend this for Gentoo usage

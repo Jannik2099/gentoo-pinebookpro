@@ -29,14 +29,6 @@ i=1
 j=$#
 while [ "${i}" -le "${j}" ]; do
 	case ${1} in
-		--gles2)
-		gles2=${2}
-		;;
-
-		--wayland)
-		wayland=${2}
-		;;
-
 		--zram)
 		zram=${2}
 		;;
@@ -66,26 +58,12 @@ chmod 4711 /bin/passwd
 echo "applied fix for sddm login"
 
 install -Dm 644 "${FILES}"/make.conf /etc/portage/make.conf
-if test -d /usr/aarch64-gentoo-linux-musl; then
-	patch /etc/portage/make.conf make.conf.musl.patch
-fi
 echo "applied optimal settings to make.conf"
 
 rm -rf /usr/portage
 mkdir -p /var/db/repos/gentoo
 mkdir -p /var/cache/distfiles
 mkdir -p /var/cache/binpkgs
-
-if [ "${gles2}" != "no" ]; then
-	sed -i "s/USE=\"/USE=\"gles2 gles2-only /" /etc/portage/make.conf
-	echo "installed gles2 profile patches"
-	echo "NOTE: this will disable OpenGL acceleration in place of gles2!"
-fi
-
-if [ "${wayland}" = "yes" ]; then
-	sed -i "s/USE=\"/USE=\"wayland /" /etc/portage/make.conf
-	echo "installed wayland profile patches. using wayland is NOT recommended right now!!!"
-fi
 
 if [ "${zram}" != "no" ]; then
 	if [ "${init}" = "systemd" ]; then
@@ -101,14 +79,10 @@ fi
 echo "syncing main repository, this will take a while"
 emerge-webrsync
 
-if test -d /usr/aarch64-gentoo-linux-musl; then
-	eselect profile set --force default/linux/arm64/17.0/musl
+if [ "${init}" = "systemd" ]; then
+	eselect profile set default/linux/arm64/17.0/systemd
 else
-	if [ "${init}" = "systemd" ]; then
-		eselect profile set default/linux/arm64/17.0/systemd
-	else
-		eselect profile set default/linux/arm64/17.0
-	fi
+	eselect profile set default/linux/arm64/17.0
 fi
 
 echo "installing pinebookpro-overlay, this will take an even longer while"
@@ -121,12 +95,6 @@ eselect repository add pinebookpro-overlay git https://github.com/Jannik2099/pin
 emerge --sync pinebookpro-overlay
 emerge -u pinebookpro-profile-overrides
 echo "installed pinebookpro-overlay"
-
-if test -d /usr/aarch64-gentoo-linux-musl; then
-	eselect repository enable musl
-	emerge --sync musl
-	echo "installed musl overlay"
-fi
 
 echo "don't forget to select a profile!"
 echo "see eselect profile"
