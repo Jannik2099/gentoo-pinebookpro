@@ -57,9 +57,6 @@ install -Dm 644 "${FILES}"/mesa /etc/portage/package.use/mesa
 chmod 4711 /bin/passwd
 echo "applied fix for sddm login"
 
-install -Dm 644 "${FILES}"/make.conf /etc/portage/make.conf
-echo "applied optimal settings to make.conf"
-
 rm -rf /usr/portage
 mkdir -p /var/db/repos/gentoo
 mkdir -p /var/cache/distfiles
