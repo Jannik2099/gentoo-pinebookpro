@@ -24,7 +24,7 @@ NOTE: there's a bug in glibc which causes EBADFD errors while in the chroot some
 
 From there on, do the usual tarball installation following the Gentoo Handbook.
 Use `sys-kernel/pinebookpro-manjaro-sources` as the kernel
-Genkernel is supported and bootloader integration has been added. Emerge `sys-boot/extlinux` and `sys-boot/uboot` , and call `genkernel all` to compile and install the Kernel. Check /boot/extlinux/extlinux.conf for any obvious mistakes.
+Genkernel is supported and bootloader integration has been added. Emerge `sys-boot/extlinux` and `sys-boot/u-boot` , and call `genkernel all` to compile and install the Kernel. Check /boot/extlinux/extlinux.conf for any obvious mistakes.
 
 It's heavily recommended to run the latest mesa, to do so add `media-libs/mesa ~arm64` to your `/etc/portage/package.accept_keywords` .
 Similarly, running the latest versions of your DE and the underlying Qt / GTK libs is often a good idea.
