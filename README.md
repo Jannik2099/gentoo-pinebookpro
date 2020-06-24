@@ -24,7 +24,7 @@ NOTE: there's a bug in glibc which causes EBADFD errors while in the chroot some
 
 From there on, do the usual tarball installation following the Gentoo Handbook.
 Use `sys-kernel/pinebookpro-manjaro-sources` as the kernel
-Genkernel is supported and bootloader integration has been added. Emerge `sys-boot/extlinux` and `sys-boot/u-boot` , and call `genkernel all` to compile and install the Kernel. Check /boot/extlinux/extlinux.conf for any obvious mistakes.
+To install / update a kernel: Mount /boot. Select it with `eselect kernel set`. Emerge `sys-boot/extlinux` and `sys-boot/u-boot`. Install u-boot to the target block device as instructed. Call `genkernel all` to compile and install the Kernel. Go to the kernel directory and do `make dtbs && make dtbs_install`. Lastly, run u-boot-update. Check /boot/extlinux/extlinux.conf for any obvious mistakes.
 
 It's heavily recommended to run the latest mesa, to do so add `media-libs/mesa ~arm64` to your `/etc/portage/package.accept_keywords` .
 Similarly, running the latest versions of your DE and the underlying Qt / GTK libs is often a good idea.
@@ -32,7 +32,7 @@ Similarly, running the latest versions of your DE and the underlying Qt / GTK li
 ## Changes to the Gentoo repository
 
 I have changed or added some ebuilds via my overlay `pinebookpro-overlay` . It is installed by the prepare script via eselect-repository.
-The Kernel ebuild `sys-kernel/pinebookpro-manjaro-soruces` has been added. `virtual/linux-sources` has been adapted accordingly. The Vanilla and Gentoo sources do not work right now and have been masked.
+The Kernel ebuild `sys-kernel/pinebookpro-manjaro-soruces` has been added. `virtual/linux-sources` has been adapted accordingly.
 The wifi firmware is packaged as `sys-firmware/pinebookpro-firmware` , from `sys-kernel/linux-firmware` only rockchip/dptx.bin is needed, the configuration is done by the script (see `/etc/portage/savedconfig/sys-kernel/linux-firmware-yyyymmdd`)
 An ebuild for miscellaneous fixes `sys-firmware/pinebookpro-misc` has been added. Please emerge this after having booted into Gentoo, it will most likely fail in a chroot. It is required for full functionality.
 An ebuild that applies profile overrides `app-portage/pinebookpro-profile-overrides` has been added, this is auto-installed and you really really shouldn't uninstall it.
@@ -54,8 +54,3 @@ General:
 
 	Issue:	Wifi bad
 	Fix:	The wifi powersave seems to be broken, disable it with `iwconfig wlan0 power off` - what an unfortunate naming
-
-KDE Plasma:
-
-	Issue:	SDDM crashes / becomes unresponsive
-	Fix:	This only seems to happen in the SDDM login menu when you don't login within ~1m. Restart SDDM and be quicker next time :P . Help in debugging this is welcome
