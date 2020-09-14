@@ -16,13 +16,15 @@ READ THE GENTOO HANDBOOK!!! https://wiki.gentoo.org/wiki/Handbook:AMD64
 
 Do this on your pbp or another aarch 64 environment, qemu works aswell.
 
-- Download a Stage 3 arm64 tarball - usually from http://distfiles.gentoo.org/experimental/arm64/
+
+- Download a Stage 3 arm64 tarball - usually from https://www.gentoo.org/downloads/#arm64
 - Extract the tarball as root, otherwise you'll mess up file permissions!
 - Put the files of this repository into the tarball - preferably into `/var/tmp/gentoo-pinebookpro`
 - Chroot into the tarball as explained in the Handbook - https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base#Copy_DNS_info
 - Edit your `/etc/portage/make.conf` to use the desired amount of threads and simultaneous jobs - I recommend MAKEOPTS="-j6 -l8" and EMERGE_DEFAULT_OPTS="--jobs 6 --load-average 8" (each as seperate lines in the file)
 - Execute the script prepare.sh - it is recommended to not change the default options unless you really know what this will do, and what will break if you do. 
 - Should the script fail you can run it again without having to unpack a new tarball.
+
 
 NOTE: there's a bug in glibc which causes EBADFD errors while in the chroot sometimes - rebooting and entering the chroot may fix this, it may not. Any help in debugging this is tremendeously welcome. This seems to only affect the systemd tarballs right now.
 
