@@ -4,7 +4,7 @@ A collection of scripts to prepare a Gentoo tarball for the pinebook pro
 
 Disclaimer:
 
-I do not recommend Gentoo for people new to Linux. This script, while unable to damage your running system, is a beta release.
+I do not recommend Gentoo for people new to Linux.
 
 ## How to use
 
@@ -25,8 +25,6 @@ Do this on your pbp or another aarch 64 environment, qemu works aswell.
 - Execute the script prepare.sh - it is recommended to not change the default options unless you really know what this will do, and what will break if you do. 
 - Should the script fail you can run it again without having to unpack a new tarball.
 
-
-NOTE: there's a bug in glibc which causes EBADFD errors while in the chroot sometimes - rebooting and entering the chroot may fix this, it may not. Any help in debugging this is tremendeously welcome. This seems to only affect the systemd tarballs right now.
 
 From there on, do the usual tarball installation following the Gentoo Handbook.
 
