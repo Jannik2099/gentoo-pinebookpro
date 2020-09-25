@@ -86,7 +86,7 @@ echo "installing pinebookpro-overlay, this will take an even longer while"
 emerge -u portage
 install -Dm 644 "${FILES}"/package.accept_keywords /etc/portage/package.accept_keywords
 emerge -u dev-vcs/git
-emerge -u --autounmask-continue eselect-repository
+emerge -u eselect-repository
 mkdir -p /etc/portage/repos.conf
 eselect repository add pinebookpro-overlay git https://github.com/Jannik2099/pinebookpro-overlay.git
 emerge --sync pinebookpro-overlay
