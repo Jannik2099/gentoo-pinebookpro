@@ -54,9 +54,6 @@ install -Dm 644 "${FILES}"/linux-firmware /etc/portage/savedconfig/sys-kernel/li
 mkdir -p /etc/portage/package.use
 install -Dm 644 "${FILES}"/mesa /etc/portage/package.use/mesa
 
-chmod 4711 /bin/passwd
-echo "applied fix for sddm login"
-
 rm -rf /usr/portage
 mkdir -p /var/db/repos/gentoo
 mkdir -p /var/cache/distfiles
