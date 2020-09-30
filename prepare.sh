@@ -81,7 +81,6 @@ fi
 
 echo "installing pinebookpro-overlay, this will take an even longer while"
 emerge -u portage
-install -Dm 644 "${FILES}"/package.accept_keywords /etc/portage/package.accept_keywords
 emerge -u dev-vcs/git
 emerge -u eselect-repository
 mkdir -p /etc/portage/repos.conf
