@@ -82,7 +82,7 @@ fi
 echo "installing pinebookpro-overlay, this will take an even longer while"
 emerge -u portage
 emerge -u dev-vcs/git
-emerge -u eselect-repository
+emerge -u app-eselect/eselect-repository
 mkdir -p /etc/portage/repos.conf
 eselect repository add pinebookpro-overlay git https://github.com/Jannik2099/pinebookpro-overlay.git
 emerge --sync pinebookpro-overlay
