@@ -19,7 +19,8 @@ Do this on your pbp or another aarch 64 environment, qemu works aswell.
 
 - Download a Stage 3 arm64 tarball - usually from https://www.gentoo.org/downloads/#arm64
 - Extract the tarball as root, otherwise you'll mess up file permissions!
-- Put the files of this repository into the tarball - preferably into `/var/tmp/gentoo-pinebookpro`
+- Put the files of this repository into the tarball - preferably into `/var/tmp/gentoo-pinebookpro`.
+    - You can do this with, e.g. `git clone https://github.com/Jannik2099/gentoo-pinebookpro /var/tmp/gentoo-pinebookpro` (or `wget https://github.com/Jannik2099/gentoo-pinebookpro/archive/master.zip -O /tmp/master.zip; unzip /tmp/master.zip -d /var/tmp/gentoo-pinebookpro; rm /tmp/master.zip`, if you don't have `git` but do have `wget`.)
 - Chroot into the tarball as explained in the Handbook - https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Base#Copy_DNS_info
 - Edit your `/etc/portage/make.conf` to use the desired amount of threads and simultaneous jobs - I recommend MAKEOPTS="-j6 -l8" and EMERGE_DEFAULT_OPTS="--jobs 6 --load-average 8" (each as seperate lines in the file)
 - Execute the script prepare.sh - it is recommended to not change the default options unless you really know what this will do, and what will break if you do. 
@@ -49,7 +50,7 @@ Similarly, running the latest versions of your DE and the underlying Qt / GTK li
 
 I have changed or added some ebuilds via my overlay `pinebookpro-overlay` . It is installed by the prepare script via eselect-repository.
 
-- The Kernel ebuild `sys-kernel/pinebookpro-manjaro-soruces` has been added.
+- The Kernel ebuild `sys-kernel/pinebookpro-manjaro-sources` has been added.
 - `virtual/linux-sources` has been adapted accordingly.
 - The wifi firmware is packaged as `sys-firmware/pinebookpro-firmware`, from `sys-kernel/linux-firmware` only `rockchip/dptx.bin` is needed, the configuration is done by the script (see `/etc/portage/savedconfig/sys-kernel/linux-firmware-yyyymmdd`)
 - An ebuild for miscellaneous fixes `sys-firmware/pinebookpro-misc` has been added. **Please emerge this after having booted into Gentoo, it will most likely fail in a chroot. It is required for full functionality.**
